@@ -70,6 +70,12 @@ const DEFAULT_LIFT_DOOR_OPEN_DURATION = 2500;
 const DEFAULT_LIFT_DOOR_CLOSE_DURATION = 2500;
 const DEFAULT_LIFT_FLOOR = 1;
 
+const SIMULATION_STATUS = {
+  RUNNING: "RUNNING",
+  IDLE: "IDLE",
+  STOPPED: "STOPPED",
+};
+
 export default class LiftSimulation {
   /**
    * Create a new lift simulation instance.
@@ -137,6 +143,12 @@ export default class LiftSimulation {
      * @type {LiftCall[]}
      */
     this.liftCallQueue = [];
+
+    /**
+     * @type {"RUNNING" | "IDLE" | "STOPPED"}
+     * @readonly
+     */
+    this.status = SIMULATION_STATUS.IDLE;
   }
 
   /**
@@ -176,7 +188,7 @@ export default class LiftSimulation {
    * @param {Lift} lift - The lift to move
    * @param {LiftCall} liftCall - The lift call to fullfill
    *
-   * @returns {void}
+   * @returns {Promise<void>}
    */
   _moveLift = async (lift, liftCall) => {
     const totalMoveDurationMs =
@@ -218,6 +230,32 @@ export default class LiftSimulation {
     this.onLiftMoveEnd?.(lift, _fromFloor, _toFloor);
   };
 
+  _run = () => {
+    if (this.status === SIMULATION_STATUS.STOPPED) {
+      return;
+    }
+    if (this.liftCallQueue.length === 0) {
+      this.status = SIMULATION_STATUS.IDLE;
+      return;
+    }
+
+    this.status = SIMULATION_STATUS.RUNNING;
+
+    const liftCall = this.liftCallQueue[0];
+
+    const closestLift = this._findClosestIdleLiftToFloor(liftCall.floorNumber);
+
+    if (!closestLift) {
+      setTimeout(this._run, 100);
+      return;
+    }
+
+    this._moveLift(closestLift, liftCall);
+    this.liftCallQueue.shift();
+
+    setTimeout(this._run, 100);
+  };
+
   /**
    * Call a lift to the given floor number.
    *
@@ -228,6 +266,10 @@ export default class LiftSimulation {
   callLift = (liftCall) => {
     // TODO: Validate lift call
     this.liftCallQueue.push(liftCall);
+
+    if (this.status === SIMULATION_STATUS.IDLE) {
+      this._run();
+    }
   };
 
   /**
@@ -236,30 +278,8 @@ export default class LiftSimulation {
    * @returns {void}
    */
   run = () => {
-    // TODO: Optimize and refactor
-    if (this.liftCallQueue.length === 0) {
-      setTimeout(this.run, 100);
-      return;
-    }
-
-    const liftCall = this.liftCallQueue.shift();
-
-    if (!liftCall) {
-      setTimeout(this.run, 100);
-      return;
-    }
-
-    const closestLift = this._findClosestIdleLiftToFloor(liftCall.floorNumber);
-
-    if (!closestLift) {
-      this.liftCallQueue.unshift(liftCall);
-      setTimeout(this.run, 100);
-      return;
-    }
-
-    this._moveLift(closestLift, liftCall);
-
-    setTimeout(this.run, 100);
+    this.status = SIMULATION_STATUS.RUNNING;
+    this._run();
   };
 
   /**
@@ -268,6 +288,6 @@ export default class LiftSimulation {
    * @returns {void}
    */
   stop = () => {
-    // TODO: Implement
+    this.status = SIMULATION_STATUS.STOPPED;
   };
 }
