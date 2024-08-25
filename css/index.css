@@ -11,6 +11,9 @@
     --floor-width-px: 100px;
     --lift-height-px: 200px;
     --lift-width-px: 160px;
+    
+    --lift-width-int: 160;
+    --lift-height-int: 200;
 
     --color-stone-950: #0c0a09;
     --color-stone-900: #1c1917;
@@ -78,6 +81,10 @@ body {
     transition: all 200ms ease;
 }
 
+.floor button * {
+    pointer-events: none;
+}
+
 .floor button:active, button:disabled {
     box-shadow: none;
     color: var(--color-green-500);
@@ -139,14 +146,14 @@ body {
     top: 0;
     left: 0;
     background: linear-gradient(
-    45deg,
-    #999 5%,
-    #fff 10%,
-    #ccc 30%,
-    #ddd 50%,
-    #ccc 70%,
-    #fff 80%,
-    #999 95%
+        45deg,
+        #999 5%,
+        #fff 10%,
+        #ccc 30%,
+        #ddd 50%,
+        #ccc 70%,
+        #fff 80%,
+        #999 95%
     );
 }
 
@@ -154,14 +161,14 @@ body {
     top: 0;
     right: 0;
     background: linear-gradient(
-    45deg,
-    #999 5%,
-    #fff 10%,
-    #ccc 30%,
-    #ddd 50%,
-    #ccc 70%,
-    #fff 80%,
-    #999 95%
+        45deg,
+        #999 5%,
+        #fff 10%,
+        #ccc 30%,
+        #ddd 50%,
+        #ccc 70%,
+        #fff 80%,
+        #999 95%
     );
 }
 
