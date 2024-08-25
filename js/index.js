@@ -25,11 +25,19 @@ const SELECTOR_LIFT_TEMPLATE = "#lift-template";
 const SELECTOR_DOOR_LEFT = ".door-left";
 const SELECTOR_DOOR_RIGHT = ".door-right";
 
+const SELECTOR_INPUT_FLOORS = "#numberOfFloors";
+const SELECTOR_INPUT_LIFTS = "#numberOfLifts";
+const SELECTOR_BUTTON_GENERATE = "#buttonGenerate";
+
 const floorsContainerElement = document.querySelector(SELECTOR_FLOORS);
 const floorTemplateElement = document.querySelector(SELECTOR_FLOOR_TEMPLATE);
 
 const liftsContainerElement = document.querySelector(SELECTOR_LIFTS);
 const liftTemplateElement = document.querySelector(SELECTOR_LIFT_TEMPLATE);
+
+const floorsInputElement = document.querySelector(SELECTOR_INPUT_FLOORS);
+const liftsInputElement = document.querySelector(SELECTOR_INPUT_LIFTS);
+const generateButtonElement = document.querySelector(SELECTOR_BUTTON_GENERATE);
 
 const getLiftElementByLiftId = (liftId) => {
   const liftElement = document.querySelector(`.lift[data-lift-id='${liftId}']`);
@@ -38,6 +46,8 @@ const getLiftElementByLiftId = (liftId) => {
 };
 
 const drawAndBindFloorsWithSimulation = (floorCount, simulation) => {
+  floorsContainerElement.innerHTML = "";
+
   for (let index = 0; index < floorCount; index++) {
     const floor = floorTemplateElement.cloneNode(true);
 
@@ -137,6 +147,8 @@ const drawAndBindFloorsWithSimulation = (floorCount, simulation) => {
 };
 
 const drawLifts = (liftCount) => {
+  liftsContainerElement.innerHTML = "";
+
   for (let index = 0; index < liftCount; index++) {
     const lift = liftTemplateElement.cloneNode(true);
 
@@ -151,8 +163,17 @@ const drawLifts = (liftCount) => {
 };
 
 const init = () => {
-  const numberOfFloors = 2;
-  const numberOfLifts = 5;
+  const numberOfFloors = floorsInputElement.valueAsNumber;
+  const numberOfLifts = liftsInputElement.valueAsNumber;
+
+  if (numberOfFloors <= 0) {
+    alert("Number of floors must be greater than 0");
+    return;
+  }
+  if (numberOfLifts <= 0) {
+    alert("Number of lifts must be greater than 0");
+    return;
+  }
 
   const simulation = new LiftSimulation({
     numberOfFloors: numberOfFloors,
@@ -166,4 +187,25 @@ const init = () => {
   drawLifts(numberOfLifts);
 };
 
-init();
+const generateFromQueryParams = () => {
+  const paramsStr = window.location.search;
+
+  const params = new URLSearchParams(paramsStr);
+
+  const numberOfLifts = parseInt(params.get("lifts"));
+  const numberOfFloors = parseInt(params.get("floors"));
+
+  if (!numberOfFloors || !numberOfLifts) return;
+  if (!Number.isInteger(numberOfFloors) || !Number.isInteger(numberOfLifts))
+    return;
+  if (numberOfFloors < 0 || numberOfLifts < 0) return;
+
+  floorsInputElement.value = numberOfFloors;
+  liftsInputElement.value = numberOfLifts;
+
+  init();
+};
+
+generateButtonElement.addEventListener("click", init);
+
+generateFromQueryParams();

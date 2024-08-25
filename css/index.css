@@ -36,7 +36,69 @@ body {
     font-family: 'Poppins', Courier, monospace;
     background-color: var(--color-stone-950);
     color: var(--color-stone-50);
+    scrollbar-gutter: stable both-edges;
 }
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: auto;
+}
+
+#header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-stone-800);
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    z-index: 2;
+}
+
+#inputs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+#numberOfFloors, #numberOfLifts {
+    padding: 8px;
+    border-radius: 4px;
+    width: 10ch;
+    background-color: var(--color-stone-700);
+    color: var(--color-stone-50);
+    border: none;
+    outline: none;
+    font-family: 'Poppins', Courier, monospace;
+}
+
+#inputs label {
+    color: var(--color-stone-500);
+}
+
+#buttonGenerate {
+    padding: 8px;
+    border-radius: 4px;
+    background-color: var(--color-stone-700);
+    color: var(--color-stone-50);
+    border: none;
+    outline: none;
+    font-family: 'Poppins', Courier, monospace;
+}
+
+#buttonGenerate:hover {
+    background-color: var(--color-stone-600);
+}
+
+#buttonGenerate:active {
+    background-color: var(--color-stone-500);
+}
+
 
 #simulation {
     position: relative;
@@ -93,15 +155,6 @@ body {
 
 .floor h3 {
     font-size: 24px;
-}
-
-.floor .divider {
-    position: absolute;
-    width: 100vw;
-    height: 4px;
-    background-color: var(--color-stone-800);
-    bottom: 0;
-    left: 0;
 }
 
 #lifts {
@@ -214,4 +267,27 @@ body {
     right: 0;
     transform-origin: top right;
     transform: rotate(28deg);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: var(--color-stone-950);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-stone-500);
+    border-radius: 8px;
+}
+
+.dotted-background {
+    --dot-bg: var(--color-stone-950); 
+    --dot-color: var(--color-stone-500);
+    --dot-size: 1px;
+    --dot-space: 12px;
+    background:
+        linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+        linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+        var(--dot-color);
 }
