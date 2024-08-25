@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+:root {
+    --floor-height-px: 200px;
+    --floor-width-px: 100px;
+    --lift-height-px: 200px;
+    --lift-width-px: 160px;
+
+    --color-stone-950: #0c0a09;
+    --color-stone-900: #1c1917;
+    --color-stone-800: #292524;
+    --color-stone-700: #44403c;
+    --color-stone-600: #57534e;
+    --color-stone-500: #78716c;
+    --color-stone-400: #a8a29e;
+    --color-stone-300: #d6d3d1;
+    --color-stone-200: #e7e5e4;
+    --color-stone-100: #f5f5f4;
+    --color-stone-50: #fafaf9;
+
+    --color-green-300: #86efac;
+    --color-green-500: #22c55e;
+    --color-green-700: #15803d;
+}
+
+body {
+    font-family: 'Poppins', Courier, monospace;
+    background-color: var(--color-stone-950);
+    color: var(--color-stone-50);
+}
+
+#simulation {
+    position: relative;
+    display: flex;
+    min-width: 100%;
+    min-height: fit-content;
+}
+
+#floor-template, #lift-template {
+    display: none;
+}
+
+#floors {
+    display: flex;
+    flex-direction: column;
+    width: var(--floor-width-px);
+}
+
+.floor {
+    height: var(--floor-height-px);
+    width: 100%;
+    background: var(--color-stone-900);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 4px solid var(--color-stone-800);
+}
+
+.floor button {
+    position: relative;
+    height: 32px;
+    width: 32px;
+    font-size: 32px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    color: var(--color-stone-600);
+    background: linear-gradient(135deg, rgba(120,113,108,0.25) 0%, rgba(68,64,60,0.25) 50%);
+    box-shadow: 1px 1px 3px 1px var(--color-stone-800), -1px -1px 3px 1px var(--color-stone-400);
+    transition: all 200ms ease;
+}
+
+.floor button:active, button:disabled {
+    box-shadow: none;
+    color: var(--color-green-500);
+    outline: 1px solid var(--color-green-500);
+}
+
+.floor h3 {
+    font-size: 24px;
+}
+
+.floor .divider {
+    position: absolute;
+    width: 100vw;
+    height: 4px;
+    background-color: var(--color-stone-800);
+    bottom: 0;
+    left: 0;
+}
+
+#lifts {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    flex: 1;
+}
+
+.lift {
+    position: absolute;
+    flex-shrink: 0;
+    bottom: 0;
+    height: var(--lift-height-px);
+    width: var(--lift-width-px);
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--color-stone-800) 0%, var(--color-stone-700) 50%);
+}
+
+.lift::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 85%;
+    width: 65%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, var(--color-stone-900) 0%, var(--color-stone-800) 50%);
+}
+
+.lift .door-left, .door-right {
+    position: absolute;
+    height: 100%;
+    width: 80px;
+    background-color: var(--color-stone-700);
+    z-index: 1;
+}
+
+.lift .door-left {
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+    45deg,
+    #999 5%,
+    #fff 10%,
+    #ccc 30%,
+    #ddd 50%,
+    #ccc 70%,
+    #fff 80%,
+    #999 95%
+    );
+}
+
+.lift .door-right {
+    top: 0;
+    right: 0;
+    background: linear-gradient(
+    45deg,
+    #999 5%,
+    #fff 10%,
+    #ccc 30%,
+    #ddd 50%,
+    #ccc 70%,
+    #fff 80%,
+    #999 95%
+    );
+}
+
+.lift .interior {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.lift .interior div {
+    position: absolute;
+    height: 1px;
+    background-color: var(--color-stone-900);
+    opacity: 0.5;
+    min-width: 50px;
+}
+
+.lift .interior > :nth-child(1) {
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    transform: rotate(28deg);
+}
+
+.lift .interior > :nth-child(2) {
+    top: 0;
+    right: 0;
+    transform-origin: top right;
+    transform: rotate(332deg);
+}
+
+.lift .interior > :nth-child(3) {
+    bottom: 0;
+    left: 0;
+    transform-origin: top left;
+    transform: rotate(332deg);
+}
+
+.lift .interior > :nth-child(4) {
+    bottom: 0;
+    right: 0;
+    transform-origin: top right;
+    transform: rotate(28deg);
+}
