@@ -45,20 +45,20 @@ const getLiftElementByLiftId = (liftId) => {
   return liftElement;
 };
 
-const drawAndBindFloorsWithSimulation = (floorCount, simulation) => {
+const drawAndBindFloorsWithSimulation = (simulation) => {
   floorsContainerElement.innerHTML = "";
 
-  for (let index = 0; index < floorCount; index++) {
+  for (let index = 0; index < simulation.numberOfFloors; index++) {
     const floor = floorTemplateElement.cloneNode(true);
 
     floor.removeAttribute("id");
 
-    const floorNumber = floorCount - index;
+    const floorNumber = simulation.numberOfFloors - index;
 
     floor.querySelector(SELECTOR_FLOOR_NUMBER).innerText = floorNumber;
 
     // Hide up button for top floor
-    if (floorNumber === floorCount) {
+    if (floorNumber === simulation.numberOfFloors) {
       floor.querySelector(SELECTOR_FLOOR_BUTTON_UP).style.display = "none";
     }
 
@@ -146,10 +146,10 @@ const drawAndBindFloorsWithSimulation = (floorCount, simulation) => {
   }
 };
 
-const drawLifts = (liftCount) => {
+const drawLifts = (simulation) => {
   liftsContainerElement.innerHTML = "";
 
-  for (let index = 0; index < liftCount; index++) {
+  for (let index = 0; index < simulation.numberOfLifts; index++) {
     const lift = liftTemplateElement.cloneNode(true);
 
     lift.removeAttribute("id");
@@ -183,8 +183,8 @@ const init = () => {
     liftDoorCloseDurationMs: 2500,
   });
 
-  drawAndBindFloorsWithSimulation(numberOfFloors, simulation);
-  drawLifts(numberOfLifts);
+  drawAndBindFloorsWithSimulation(simulation);
+  drawLifts(simulation);
 };
 
 const generateFromQueryParams = () => {

@@ -94,7 +94,12 @@ export default class LiftSimulation {
    * @param {OnLiftDoorsClose} [options.onLiftDoorsClose] - callback that is fired when a lift closes its doors
    */
   constructor(options) {
-    // TODO: Options validation
+    if (options.numberOfFloors <= 0) {
+      throw new Error("Number of floors must be greater than 0");
+    }
+    if (options.numberOfLifts <= 0) {
+      throw new Error("Number of lifts must be greater than 0");
+    }
 
     /** @readonly */
     this.numberOfLifts = options.numberOfLifts;
@@ -264,7 +269,14 @@ export default class LiftSimulation {
    * @returns {void}
    */
   callLift = (liftCall) => {
-    // TODO: Validate lift call
+    if (
+      liftCall.floorNumber > this.numberOfFloors ||
+      liftCall.floorNumber < 1
+    ) {
+      throw new Error(
+        `Invalid floor number. floor number must be between 1 and ${this.numberOfFloors} (inclusive)`
+      );
+    }
     this.liftCallQueue.push(liftCall);
 
     if (this.status === SIMULATION_STATUS.IDLE) {
