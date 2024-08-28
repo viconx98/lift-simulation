@@ -185,6 +185,10 @@ const init = () => {
 
   drawAndBindFloorsWithSimulation(simulation);
   drawLifts(simulation);
+
+  getLiftElementByLiftId(1)?.scrollIntoView({
+    behavior: "smooth",
+  });
 };
 
 const generateFromQueryParams = () => {
