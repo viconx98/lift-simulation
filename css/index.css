@@ -7,13 +7,14 @@
 }
 
 :root {
-    --floor-height-px: 200px;
-    --floor-width-px: 100px;
-    --lift-height-px: 200px;
-    --lift-width-px: 160px;
+    --floor-height-px: 140px;
+    --floor-width-px: 80px;
     
-    --lift-width-int: 160;
-    --lift-height-int: 200;
+    --lift-height-px: 140px;
+    --lift-width-px: 100px;
+    
+    --lift-width-int: 100;
+    --lift-height-int: 140;
 
     --color-stone-950: #0c0a09;
     --color-stone-900: #1c1917;
@@ -132,9 +133,9 @@ button:disabled {
 
 .floor button {
     position: relative;
-    height: 32px;
-    width: 32px;
-    font-size: 32px;
+    height: 24px;
+    width: 24px;
+    font-size: 24px;
     outline: none;
     border: none;
     border-radius: 4px;
@@ -142,6 +143,11 @@ button:disabled {
     background: linear-gradient(135deg, rgba(120,113,108,0.25) 0%, rgba(68,64,60,0.25) 50%);
     box-shadow: 1px 1px 3px 1px var(--color-stone-800), -1px -1px 3px 1px var(--color-stone-400);
     transition: all 200ms ease;
+}
+
+.floor button svg {
+    height: 20px;
+    width: 20px;
 }
 
 .floor button * {
@@ -155,7 +161,7 @@ button:disabled {
 }
 
 .floor h3 {
-    font-size: 24px;
+    font-size: 20px;
 }
 
 #lifts {
@@ -191,7 +197,7 @@ button:disabled {
 .lift .door-left, .door-right {
     position: absolute;
     height: 100%;
-    width: 80px;
+    width: calc(var(--lift-width-px) / 2);
     background-color: var(--color-stone-700);
     z-index: 1;
 }
