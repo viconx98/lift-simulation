@@ -76,6 +76,8 @@ const drawAndBindFloorsWithSimulation = (simulation) => {
         onLiftMoveStart: (lift, _, to, duration) => {
           const liftElement = getLiftElementByLiftId(lift.id);
 
+          if (!liftElement) return;
+
           const offset = (to - 1) * LIFT_HEIGHT;
 
           liftElement.animate(
@@ -96,6 +98,8 @@ const drawAndBindFloorsWithSimulation = (simulation) => {
         onLiftDoorsOpen: (lift, duration) => {
           const liftElement = getLiftElementByLiftId(lift.id);
 
+          if (!liftElement) return;
+
           const offset = -(LIFT_WIDTH / 2);
 
           liftElement
@@ -115,6 +119,8 @@ const drawAndBindFloorsWithSimulation = (simulation) => {
 
         onLiftDoorsClose: (lift, duration) => {
           const liftElement = getLiftElementByLiftId(lift.id);
+
+          if (!liftElement) return;
 
           const offset = 0;
 
@@ -149,14 +155,14 @@ const drawAndBindFloorsWithSimulation = (simulation) => {
 const drawLifts = (simulation) => {
   liftsContainerElement.innerHTML = "";
 
-  for (let index = 0; index < simulation.numberOfLifts; index++) {
+  for (let index = 0; index < simulation.lifts.length; index++) {
     const lift = liftTemplateElement.cloneNode(true);
 
     lift.removeAttribute("id");
 
     const offset = index * (LIFT_WIDTH + LIFT_GAP);
     lift.style.left = offset + "px";
-    lift.dataset.liftId = index + 1;
+    lift.dataset.liftId = simulation.lifts[index].id;
 
     liftsContainerElement.appendChild(lift);
   }

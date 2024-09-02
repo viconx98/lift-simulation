@@ -1,4 +1,4 @@
-import { delay } from "./utils.js";
+import { delay, id } from "./utils.js";
 
 /**
  * @typedef {{
@@ -134,11 +134,11 @@ export default class LiftSimulation {
     this.onLiftDoorsClose = options.onLiftDoorsClose;
 
     /**
-     * @private
+     * @readonly
      * @type {Lift[]}
      */
     this.lifts = new Array(this.numberOfLifts).fill(null).map((_, index) => ({
-      id: index + 1,
+      id: id(),
       currentFloor: DEFAULT_LIFT_FLOOR,
       isMoving: false,
     }));
