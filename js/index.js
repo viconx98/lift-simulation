@@ -172,11 +172,11 @@ const init = () => {
   const numberOfFloors = floorsInputElement.valueAsNumber;
   const numberOfLifts = liftsInputElement.valueAsNumber;
 
-  if (numberOfFloors <= 0) {
+  if (Number.isNaN(numberOfFloors) || numberOfFloors <= 0) {
     alert("Number of floors must be greater than 0");
     return;
   }
-  if (numberOfLifts <= 0) {
+  if (Number.isNaN(numberOfLifts) || numberOfLifts <= 0) {
     alert("Number of lifts must be greater than 0");
     return;
   }
@@ -217,5 +217,27 @@ const generateFromQueryParams = () => {
 };
 
 generateButtonElement.addEventListener("click", init);
+
+const VALID_KEYS = new Set([
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "Backspace",
+]);
+
+const inputNumbersOnlyValidator = (event) => {
+  if (!VALID_KEYS.has(event.key)) {
+    event.preventDefault();
+  }
+};
+floorsInputElement.addEventListener("keydown", inputNumbersOnlyValidator);
+liftsInputElement.addEventListener("keydown", inputNumbersOnlyValidator);
 
 generateFromQueryParams();
