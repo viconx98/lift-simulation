@@ -230,6 +230,7 @@ const VALID_KEYS = new Set([
   "8",
   "9",
   "Backspace",
+  "Tab",
 ]);
 
 const inputNumbersOnlyValidator = (event) => {
